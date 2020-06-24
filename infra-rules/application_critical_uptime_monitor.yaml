@@ -1,0 +1,50 @@
+name: Heartbeat UpTime Monitoring Rule
+type: metric_aggregation
+
+#es_host: localhost
+#es_port: 9200
+
+index: heartbeat*
+
+buffer_time:
+  minutes: 5
+realert:
+  minutes: 5
+
+metric_agg_key: summary.down
+metric_agg_type: avg
+query_key: instance-tag
+#doc_type: metricsets
+
+bucket_interval:
+  minutes: 5
+
+sync_bucket_interval: true
+#allow_buffer_time_overlap: true
+#use_run_every_query_size: true
+
+#min_threshold: 0.1
+max_threshold: 0.9
+
+filter:
+- term:
+    critical-instance: true
+
+match_enhancements:
+- "elastalert_modules.tst_ist_tz_enhancement.ConvertTzInfo"
+
+# (Required)
+# The alert is use when a match is found
+alert:
+- slack
+
+alert_subject: "CSAD IT - Critical Instance Application Health Monitoring Alarm"
+alert_text: "The Application {0} is unhealthy and reporting Downtime during {1}"
+alert_text_type: alert_text_only
+alert_text_args: ["instance-tag", "@timestamp"]
+
+
+slack:
+slack_webhook_url: "<slack-webhook>"
+slack_title: "CSAD IT - Critical Instance Application Health Monitoring Alarm"
+slack_title_link: "https://elk.it.logitech.com:5601/app/kibana#/dashboard/35aa4fd0-b0b3-11ea-833d-fde9206e58f3"

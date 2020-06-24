@@ -1,0 +1,47 @@
+name: Metricbeat CPU Spike Rule
+type: metric_aggregation
+
+#es_host: localhost
+#es_port: 9200
+
+index: metricbeat-*
+
+buffer_time:
+  minutes: 25
+realert:
+  minutes: 10
+
+metric_agg_key: system.cpu.user.pct
+metric_agg_type: avg
+query_key: instance-tag
+#doc_type: metricsets
+
+bucket_interval:
+  minutes: 5
+
+sync_bucket_interval: true
+#allow_buffer_time_overlap: true
+#use_run_every_query_size: true
+
+#min_threshold: 0.1
+max_threshold: 0.8
+
+filter:
+- term:
+    metricset.name: cpu
+
+match_enhancements:
+- "elastalert_modules.tst_ist_tz_enhancement.ConvertTzInfo"
+# (Required)
+# The alert is use when a match is found
+alert:
+- slack
+
+alert_subject: "CSAD IT Infra CPU Utilization Alarm"
+alert_text: "CPU Usage Execeeded 80% on the instance {0} during {1}."
+alert_text_type: alert_text_only
+alert_text_args: ["instance-tag", "@timestamp"]
+
+
+slack:
+slack_webhook_url: "<slack-webhook>"
