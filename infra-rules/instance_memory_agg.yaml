@@ -1,0 +1,44 @@
+name: Metricbeat Memory Spike Rule
+type: metric_aggregation
+
+#es_host: localhost
+#es_port: 9200
+
+index: metricbeat-*
+
+buffer_time:
+  minutes: 25
+realert:
+  minutes: 10
+
+metric_agg_key: system.memory.actual.used.pct
+metric_agg_type: avg
+query_key: ["instance-tag"]
+#doc_type: metricsets
+
+bucket_interval:
+  minutes: 5
+sync_bucket_interval: true
+#allow_buffer_time_overlap: true
+#use_run_every_query_size: true
+
+max_threshold: 0.95
+
+filter:
+- term:
+    metricset.name: memory
+
+match_enhancements:
+- "elastalert_modules.tst_ist_tz_enhancement.ConvertTzInfo"
+
+alert:
+- slack
+
+alert_subject: "CSAD IT Infra Memory Alarm"
+alert_text: "Memory Usage Execeeded 95% on the instance {0} during {1}."
+alert_text_type: alert_text_only
+alert_text_args: ["instance-tag", "@timestamp"]
+
+
+slack:
+slack_webhook_url: "<slack-webhook>"
