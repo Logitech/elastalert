@@ -73,7 +73,7 @@ class SlackCustomAlert(Alerter):
                               "text":"Send Incident Response"
                            },
                            "style":"primary",
-                           "value":"click_me_123"
+                           "value":"submit_incident_response"
                         }
                      ]
                   }
