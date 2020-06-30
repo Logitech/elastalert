@@ -1,9 +1,11 @@
 import requests
+import json
 
 from requests.exceptions import RequestException
 
 from elastalert.alerts import Alerter, BasicMatchString
 from elastalert.util import elastalert_logger
+from elastalert.util import EAException
 
 class SlackCustomAlert(Alerter):
     # By setting required_options to a set of strings
@@ -31,6 +33,7 @@ class SlackCustomAlert(Alerter):
                "blocks":[
                   {
                      "type":"section",
+                     "block_id": "alarm_title",
                      "text":{
                         "type":"mrkdwn",
                         "text":"*{slack_title}*".format(slack_title = self.slack_title)
@@ -38,33 +41,35 @@ class SlackCustomAlert(Alerter):
                   },
                   {
                      "type":"section",
+                     "block_id": "alarm_text_args",
                      "fields":[
                         {
                            "type":"mrkdwn",
-                           "text":"*Application:*\n{instance-tag}".format(instance-tag = match['instance-tag'])
+                           "text":"*Application:*\n{instance}".format(instance = match['instance-tag'])
                         },
                         {
                            "type":"mrkdwn",
-                           "text":"*Time in IST:*\n{timestamp-ist}".format(timestamp-ist = match['@timestamp-ist']
+                           "text":"*Time in IST:*\n{ist}".format(ist = match['@timestamp-ist'])
                         },
                         {
                            "type":"mrkdwn",
-                           "text":"*Time in CST:*\n{timestamp-cst}".format(timestamp-cst = match['@timestamp-cst']
+                           "text":"*Time in CST:*\n{cst}".format(cst = match['@timestamp-cst'])
                         },
                         {
                            "type":"mrkdwn",
-                           "text":"*Time in UTC00Z:*\n{timestamp}".format(timestamp = match['@timestamp']
+                           "text":"*Time in UTC00Z:*\n{timestamp}".format(timestamp = match['@timestamp'])
                         }
                      ]
                   },
                   {
                      "type":"actions",
+                     "block_id": "alarm_action",
                      "elements":[
                         {
                            "type":"button",
                            "text":{
                               "type":"plain_text",
-                              "emoji":true,
+                              "emoji":True,
                               "text":"Send Incident Response"
                            },
                            "style":"primary",
