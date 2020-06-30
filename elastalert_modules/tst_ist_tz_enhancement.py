@@ -29,4 +29,4 @@ class ConvertTzInfo(BaseEnhancement):
 
         tz_str = ist_tz_str + " Or " + tst_tz_str
 
-        match['@timestamp'] = tz_str
+        match['@timestamp-custom'] = tz_str
