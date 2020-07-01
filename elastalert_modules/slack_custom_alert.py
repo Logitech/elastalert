@@ -70,6 +70,16 @@ class SlackCustomAlert(Alerter):
                            "text":{
                               "type":"plain_text",
                               "emoji":True,
+                              "text":"View Kibana Dashboard"
+                           },
+                           "style":"primary",
+                           "url":"https://elk.it.logitech.com:5601/app/kibana#/dashboard/35aa4fd0-b0b3-11ea-833d-fde9206e58f3?_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A2000)%2Ctime%3A(from%3Anow-15d%2Cto%3Anow))"
+                        },
+                        {
+                           "type":"button",
+                           "text":{
+                              "type":"plain_text",
+                              "emoji":True,
                               "text":"Send Incident Response"
                            },
                            "style":"primary",
