@@ -27,6 +27,5 @@ class ConvertTzInfo(BaseEnhancement):
         ist_tz_str = pretty_ts(ist_tz, False)
         tst_tz_str = pretty_ts(tst_tz, False)
 
-        tz_str = ist_tz_str + " Or " + tst_tz_str
-
-        match['@timestamp'] = tz_str
+        match['@timestamp-ist'] = ist_tz_str
+        match['@timestamp-cst'] = tst_tz_str

@@ -35,16 +35,7 @@ filter:
 
 # (Required)
 # The alert is use when a match is found
-alert:
-- slack
+alert: "elastalert_modules.slack_custom_alert.SlackCustomAlert"
 
-alert_subject: "CSAD IT - Non Critical Instance Application Health Monitoring Alarm"
-alert_text: "The Application {0} is unhealthy and reporting Downtime during {1}"
-alert_text_type: alert_text_only
-alert_text_args: ["instance-tag", "@timestamp"]
-
-
-slack:
-slack_webhook_url: "<slack-webhook>"
+slack_webhook_url: ""
 slack_title: "CSAD IT - Non Critical Instance Application Health Monitoring Alarm"
-slack_title_link: "https://elk.it.logitech.com:5601/app/kibana#/dashboard/35aa4fd0-b0b3-11ea-833d-fde9206e58f3"
